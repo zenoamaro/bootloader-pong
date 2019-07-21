@@ -6,6 +6,15 @@ plot:
         mov [es:di], cl
         ret
 
+clear:
+        ; cl=color
+        mov di, SCREEN_W * SCREEN_H
+clear_loop:
+        mov [es:di], cl
+        dec di
+        jnz clear_loop
+        ret
+
 sleep:
         mov ecx, 0xffffffff
 sleep_loop:

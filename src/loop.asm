@@ -1,43 +1,57 @@
 loop: ;-------------------------------------------------------------------------
 
-
-clean: ;------------------------------------------------------------------------
-        mov ax, [BallY]
-        mov bx, [BallX]
-        mov cl, BG_C
-        call plot
-
-
 update: ;-----------------------------------------------------------------------
 
-update_x:
+update_player:
+update_player_input:
+        in al, KEYBOARD_PORT
+        cmp al, KEY_W
+        je update_player_move_up
+        cmp al, KEY_S
+        je update_player_move_down
+        jmp update_player_move_end
+update_player_move:
+update_player_move_up:
+        dec word [P1Y]
+        jmp update_player_move_end
+update_player_move_down:
+        inc word [P1Y]
+update_player_move_end:
+
+update_ball:
+update_ball_move:
+update_ball_move_x:
         mov ax, [BallX]
         mov bx, [BallXS]
         add ax, bx
-        jz invert_x
+        jz update_ball_move_x_invert
         cmp ax, SCREEN_W
-        jne set_x
-invert_x:
+        jne update_ball_move_x_set
+update_ball_move_x_invert:
         neg bx
         mov [BallXS], bx
-set_x:
+update_ball_move_x_set:
         mov [BallX], ax
-
-update_y:
+update_ball_move_x_end:
+update_ball_move_y:
         mov ax, [BallY]
         mov bx, [BallYS]
         add ax, bx
-        jz invert_y
+        jz update_ball_move_y_invert
         cmp ax, SCREEN_H
-        jne set_y
-invert_y:
+        jne update_ball_move_y_set
+update_ball_move_y_invert:
         neg bx
         mov [BallYS], bx
-set_y:
+update_ball_move_y_set:
         mov [BallY], ax
+update_ball_move_y_end:
+update_ball_move_end:
+update_ball_end:
 
 
 draw: ;-------------------------------------------------------------------------
+        call clear
 
 draw_p1:
         mov dx, P1H
