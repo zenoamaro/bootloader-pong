@@ -39,6 +39,28 @@ set_y:
 
 draw: ;-------------------------------------------------------------------------
 
+draw_p1:
+        mov dx, P1H
+        mov bx, P1X
+        mov cl, P1C
+draw_p1_loop:
+        mov ax, [P1Y]
+        add ax, dx
+        call plot
+        dec dx                          ; FIXME: Use loop
+        jnz draw_p1_loop
+
+draw_p2:
+        mov dx, P2H
+        mov bx, P2X
+        mov cl, P2C
+draw_p2_loop:
+        mov ax, [P2Y]
+        add ax, dx
+        call plot
+        dec dx                          ; FIXME: Use loop
+        jnz draw_p2_loop
+
 draw_ball:
         mov ax, [BallY]
         mov bx, [BallX]
