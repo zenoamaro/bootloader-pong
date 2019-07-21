@@ -1,7 +1,7 @@
 init: ;-------------------------------------------------------------------------
-        neg word [BallXS]               ; Invert horizontal direction
-        mov [BallX], word BALL_X_START  ; Ball at starting position
-        mov [BallY], word BALL_Y_START
+        neg word [ball_xs]               ; Invert horizontal direction
+        mov [ball_x], word BALL_START_X  ; Ball at starting position
+        mov [ball_y], word BALL_START_Y
 
 
 loop: ;-------------------------------------------------------------------------
@@ -18,82 +18,82 @@ update_player_input:
         je update_player_move_down
         jmp update_player_move_end      ; Still
 update_player_move_up:
-        mov ax, [P1Y]                   ; Top of paddle
+        mov ax, [p1_y]                   ; Top of paddle
         cmp ax, 0                       ; Top of screen collision
         je update_player_move_end
-        dec word [P1Y]                  ; Move up
+        dec word [p1_y]                  ; Move up
         jmp update_player_move_end
 update_player_move_down:
-        mov ax, [P1Y]                   ; Top of paddle
-        add ax, P1H                     ; Add size of paddle
+        mov ax, [p1_y]                   ; Top of paddle
+        add ax, P1_H                     ; Add size of paddle
         cmp ax, SCREEN_H                ; Bottom of screen collision
         je update_player_move_end
-        inc word [P1Y]                  ; Move down
+        inc word [p1_y]                  ; Move down
 update_player_move_end:
 
 
 update_ai:
-        mov cx, [P2Y]                   ; Check ball position
-        cmp cx, [BallY]                 ; Top of right paddle
+        mov cx, [p2_y]                   ; Check ball position
+        cmp cx, [ball_y]                 ; Top of right paddle
         jg update_ai_move_up            ; Paddle too low
-        add cx, P2H
-        cmp cx, [BallY]                 ; Bottom of right paddle
+        add cx, P2_H
+        cmp cx, [ball_y]                 ; Bottom of right paddle
         jl update_ai_move_down          ; Paddle too high
         jmp update_ai_end
 update_ai_move_up:
-        dec word [P2Y]
+        dec word [p2_y]
         jmp update_ai_end
 update_ai_move_down:
-        inc word [P2Y]
+        inc word [p2_y]
 update_ai_end:
 
 
 update_ball_x:
-        mov ax, [BallX]
-        mov bx, [BallXS]
+        mov ax, [ball_x]
+        mov bx, [ball_xs]
         add ax, bx                      ; Calculate next position
 update_ball_x_screen_collision:
         jz state_p2_scored                 ; Left of screen collision - Win
         cmp ax, SCREEN_W
         je state_p1_scored                 ; Right of screen collision - Win
 update_ball_x_p1_collision:
-        cmp ax, P1X                     ; Left paddle collision
+        cmp ax, P1_X                     ; Left paddle collision
         jne update_ball_x_p2_collision
-        mov cx, [P1Y]
-        cmp cx, [BallY]                 ; Top of left paddle collision
+        mov cx, [p1_y]
+        cmp cx, [ball_y]                 ; Top of left paddle collision
         jg update_ball_x_p2_collision
-        add cx, P1H
-        cmp cx, [BallY]                 ; Bottom of left paddle collision
+        add cx, P1_H
+        cmp cx, [ball_y]                 ; Bottom of left paddle collision
         jge update_ball_x_invert
 update_ball_x_p2_collision:
-        cmp ax, P2X                     ; Right paddle collision
+        cmp ax, P2_X                     ; Right paddle collision
         jne update_ball_x_apply
-        mov cx, [P2Y]
-        cmp cx, [BallY]                 ; Top of right paddle collision
+        mov cx, [p2_y]
+        cmp cx, [ball_y]                 ; Top of right paddle collision
         jg update_ball_x_apply
-        add cx, P2H
-        cmp cx, [BallY]                 ; Bottom of right paddle collision
+        add cx, P2_H
+        cmp cx, [ball_y]                 ; Bottom of right paddle collision
         jl update_ball_x_apply
 update_ball_x_invert:
         neg bx                          ; Invert direction
-        mov [BallXS], bx
+        mov [ball_xs], bx
 update_ball_x_apply:
-        mov [BallX], ax                 ; Apply speed
+        mov [ball_x], ax                 ; Apply speed
 update_ball_x_end:
 
 
 update_ball_y:
-        mov ax, [BallY]
-        mov bx, [BallYS]
+        mov ax, [ball_y]
+        mov bx, [ball_ys]
         add ax, bx                      ; Top of screen collision
         jz update_ball_y_invert
         cmp ax, SCREEN_H                ; Bottom of screen collision
         jne update_ball_y_apply
 update_ball_y_invert:
         neg bx                          ; Invert direction
-        mov [BallYS], bx
+        mov [ball_ys], bx
 update_ball_y_apply:
-        mov [BallY], ax                 ; Apply speed
+        mov [ball_y], ax                 ; Apply speed
 update_ball_y_end:
 
 
@@ -108,7 +108,7 @@ draw_p1_score:
         mov dh, P1_SCORE_Y
         int 10h
         mov ah, 0x0A                    ; Print char
-        mov al, [P1Score]
+        mov al, [p1_score]
         add al, 48                      ; `0` character
         mov cx, 1                       ; Repeat once
         mov bl, P1_SCORE_C              ; Color
@@ -120,18 +120,18 @@ draw_p2_score:
         mov dh, P2_SCORE_Y
         int 10h
         mov ah, 0x0A                    ; Print char
-        mov al, [P2Score]
+        mov al, [p2_score]
         add al, 48                      ; `0` character
         mov cx, 1                       ; Repeat once
         mov bl, P2_SCORE_C              ; Color
         int 10h
 
 draw_p1:
-        mov dx, P1H                     ; Size of paddle
-        mov bx, P1X
-        mov cl, P1C
+        mov dx, P1_H                     ; Size of paddle
+        mov bx, P1_X
+        mov cl, P1_C
 draw_p1_loop:
-        mov ax, [P1Y]                   ; Top of paddle
+        mov ax, [p1_y]                   ; Top of paddle
         add ax, dx
         dec ax                          ; Inclusive zero loop
         call plot
@@ -139,11 +139,11 @@ draw_p1_loop:
         jnz draw_p1_loop                ; Loop to size of paddle
 
 draw_p2:
-        mov dx, P2H                     ; Size of paddle
-        mov bx, P2X
-        mov cl, P2C
+        mov dx, P2_H                     ; Size of paddle
+        mov bx, P2_X
+        mov cl, P2_C
 draw_p2_loop:
-        mov ax, [P2Y]                   ; Top of paddle
+        mov ax, [p2_y]                   ; Top of paddle
         add ax, dx
         dec ax                          ; Inclusive zero loop
         call plot
@@ -151,8 +151,8 @@ draw_p2_loop:
         jnz draw_p2_loop                ; Loop to size of paddle
 
 draw_ball:
-        mov ax, [BallY]
-        mov bx, [BallX]
+        mov ax, [ball_y]
+        mov bx, [ball_x]
         mov cl, BALL_C
         call plot
 
@@ -165,13 +165,13 @@ spin: ;-------------------------------------------------------------------------
 states: ;-----------------------------------------------------------------------
 
 state_p1_scored:
-        inc byte [P1Score]
-        cmp [P1Score], byte MAX_SCORE
+        inc byte [p1_score]
+        cmp [p1_score], byte MAX_SCORE
         jge state_game_over
         jmp init
 state_p2_scored:
-        inc byte [P2Score]
-        cmp [P2Score], byte MAX_SCORE
+        inc byte [p2_score]
+        cmp [p2_score], byte MAX_SCORE
         jge state_game_over
         jmp init
 
@@ -184,7 +184,7 @@ state_game_over_print:
         mov dh, GAME_OVER_Y
         add dl, cl-1                    ; Offset x by index
         int 10h
-        mov bx, GAME_OVER_T             ; Pointer to string
+        mov bx, game_over_s             ; Pointer to string
         add bx, cx                      ; Offset by index
         dec bx
         mov di, bx                      ; Address

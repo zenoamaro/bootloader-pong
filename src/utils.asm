@@ -16,7 +16,7 @@ clear_loop:
         ret
 
 sleep:
-        mov edx, SPINLOOP
+        mov edx, SPINLOOPS
 sleep_loop:
         mov ecx, 0xffffffff
 sleep_inner:
