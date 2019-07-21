@@ -25,33 +25,53 @@ update_player_move_down:
 update_player_move_end:
 
 
-update_ball_move_x:
+update_ball_x:
         mov ax, [BallX]
         mov bx, [BallXS]
-        add ax, bx
-        jz update_ball_move_x_invert    ; Left of screen collision
-        cmp ax, SCREEN_W                ; Right of screen collision
-        jne update_ball_move_x_set
-update_ball_move_x_invert:
+        add ax, bx                      ; Calculate next position
+update_ball_x_screen_collision:
+        jz update_ball_x_invert         ; Left of screen collision - FIXME
+        cmp ax, SCREEN_W                ; Right of screen collision - FIXME
+        je update_ball_x_invert
+update_ball_x_p1_collision:
+        cmp ax, P1X                     ; Left paddle collision
+        jne update_ball_x_p2_collision
+        mov cx, [P1Y]
+        cmp cx, [BallY]                 ; Top of left paddle collision
+        jg update_ball_x_p2_collision
+        add cx, P1H
+        cmp cx, [BallY]                 ; Bottom of left paddle collision
+        jge update_ball_x_invert
+update_ball_x_p2_collision:
+        cmp ax, P2X                     ; Right paddle collision
+        jne update_ball_x_apply
+        mov cx, [P2Y]
+        cmp cx, [BallY]                 ; Top of right paddle collision
+        jg update_ball_x_apply
+        add cx, P2H
+        cmp cx, [BallY]                 ; Bottom of right paddle collision
+        jl update_ball_x_apply
+update_ball_x_invert:
         neg bx                          ; Invert direction
         mov [BallXS], bx
-update_ball_move_x_set:
+update_ball_x_apply:
         mov [BallX], ax                 ; Apply speed
-update_ball_move_x_end:
+update_ball_x_end:
 
-update_ball_move_y:
+
+update_ball_y:
         mov ax, [BallY]
         mov bx, [BallYS]
         add ax, bx
-        jz update_ball_move_y_invert
+        jz update_ball_y_invert
         cmp ax, SCREEN_H                ; Bottom of screen collision
-        jne update_ball_move_y_set
-update_ball_move_y_invert:
+        jne update_ball_y_apply
+update_ball_y_invert:
         neg bx                          ; Invert direction
         mov [BallYS], bx
-update_ball_move_y_set:
+update_ball_y_apply:
         mov [BallY], ax                 ; Apply speed
-update_ball_move_y_end:
+update_ball_y_end:
 
 
 draw: ;-------------------------------------------------------------------------
