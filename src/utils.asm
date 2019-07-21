@@ -1,11 +1,3 @@
-plot:
-        ; ax=y, bx=x, cl=color
-        imul ax, 320
-        add ax, bx
-        mov di, ax
-        mov [es:di], cl
-        ret
-
 cls:
         ; cl=color
         mov di, SCREEN_W * SCREEN_H
@@ -13,6 +5,16 @@ cls_loop:
         mov [es:di], cl
         dec di
         jnz cls_loop
+        ret
+
+plot:
+        ; ax=y, bx=x, dl=color
+        push ax
+        imul ax, 320
+        add ax, bx
+        mov di, ax
+        mov [es:di], dl
+        pop ax
         ret
 
 plotc:
