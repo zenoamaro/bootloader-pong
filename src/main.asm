@@ -1,13 +1,12 @@
         org 7C00h                       ; Bootloader
-        jmp start
 
-data:
-        %include "src/data.asm"
-
-start:
+main:
         %include "src/setup.asm"
         %include "src/loop.asm"
         %include "src/utils.asm"
+
+data:
+        %include "src/data.asm"
 
 padding:
         %assign compiled_size $-$$

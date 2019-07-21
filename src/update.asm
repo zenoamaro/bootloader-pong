@@ -21,6 +21,7 @@ update_player:
   .end:
 
 update_ai:
+  .think
         mov cx, [P2.y]                  ; Check ball position
         cmp cx, [Ball.y]                ; Top of right paddle
         jg .move_up                     ; Paddle too low
@@ -40,10 +41,18 @@ update_ball_x:
         mov bx, [Ball.xs]
         add ax, bx                      ; Calculate next position
   .collide_screen_left:
-        jz state_p2_scored              ; Left of screen collision - Win
+        jnz .collide_screen_right       ; Left of screen collision - Win
+        inc byte [P2.score.v]           ; Inc score
+        cmp [P2.score.v], byte GameOver.score ; If player won
+        jge game_over                   ; Game over
+        jmp match_start                 ; Restart match
   .collide_screen_right:
         cmp ax, Screen.w
-        je state_p1_scored              ; Right of screen collision - Win
+        jne .collide_p1                 ; Right of screen collision - Win
+        inc byte [P1.score.v]           ; Inc score
+        cmp [P1.score.v], byte GameOver.score ; if player won
+        jge game_over                   ; Game over
+        jmp match_start                 ; Restart match
   .collide_p1:
         cmp ax, P1.x                    ; Left paddle collision
         jne .collide_p2

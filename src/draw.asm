@@ -1,4 +1,4 @@
-clear:
+clear_screen:
         mov cx, Screen.c                ; Clear screen to bg color
         call ClearScreen
 
