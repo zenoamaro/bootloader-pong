@@ -10,6 +10,12 @@ Screen:
   .h            equ 200
   .c            equ 0
 
+Net:
+  .x:           equ Screen.w / 2
+  .y:           equ 1
+  .h:           equ (Screen.h - 2) / 2
+  .c:           equ 8
+
 Ball:
   .x0           equ Screen.w / 2
   .y0           equ Screen.h / 2

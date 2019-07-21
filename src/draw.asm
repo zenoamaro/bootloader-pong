@@ -2,6 +2,16 @@ clear_screen:
         mov cx, Screen.c                ; Clear screen to bg color
         call ClearScreen
 
+draw_net:
+        mov ax, Net.y                   ; Y
+        mov bx, Net.x                   ; X
+        mov cx, Net.h                   ; Height
+        mov dl, Net.c                   ; Color
+  .loop
+        call Plot                       ; Plot
+        add ax, 2                       ; Dotted line
+        loop .loop                      ; Loop to height of net
+
 draw_scores:
   .p1:
         mov dl, P1.score.x              ; X
