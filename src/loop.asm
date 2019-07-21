@@ -20,7 +20,7 @@ game_over:
         mov dl, GameOver.x              ; X
         mov dh, GameOver.y              ; Y
         mov bl, GameOver.c              ; Color
-  .print:
+    .print:
         mov al, [di]                    ; Get actual char
         push cx
         call PlotChar                   ; Plot char
@@ -28,5 +28,5 @@ game_over:
         inc di                          ; One char forward
         pop cx
         loop .print                     ; Loop until string end
-  .spin:
+    .spin:
         jmp .spin                       ; Spin forever

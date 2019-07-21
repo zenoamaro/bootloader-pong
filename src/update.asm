@@ -1,27 +1,27 @@
 update_player:
-  .input:
+    .input:
         in al, Keyboard.port            ; Read keyboard directly
         cmp al, Keyboard.w              ; Up
         je .move_up
         cmp al, Keyboard.s              ; Down
         je .move_down
         jmp .end                        ; Still
-  .move_up:
+    .move_up:
         mov ax, [P1.y]                  ; Top of paddle
         cmp ax, 0                       ; Top of screen collision
         je .end
         dec word [P1.y]                 ; Move up
         jmp .end
-  .move_down:
+    .move_down:
         mov ax, [P1.y]                  ; Top of paddle
         add ax, P1.h                    ; Add size of paddle
         cmp ax, Screen.h                ; Bottom of screen collision
         je .end
         inc word [P1.y]                 ; Move down
-  .end:
+    .end:
 
 update_ai:
-  .think:
+    .think:
         mov cx, [P2.y]                  ; Check ball position
         cmp cx, [Ball.y]                ; Top of right paddle
         jg .move_up                     ; Paddle too low
@@ -29,31 +29,31 @@ update_ai:
         cmp cx, [Ball.y]                ; Bottom of right paddle
         jl .move_down                   ; Paddle too high
         jmp .end
-  .move_up:
+    .move_up:
         dec word [P2.y]
         jmp .end
-  .move_down:
+    .move_down:
         inc word [P2.y]
-  .end:
+    .end:
 
 update_ball_x:
         mov ax, [Ball.x]
         mov bx, [Ball.xs]
         add ax, bx                      ; Calculate next position
-  .collide_screen_left:
+    .collide_screen_left:
         jnz .collide_screen_right       ; Left of screen collision - Win
         inc byte [P2.score.v]           ; Inc score
         cmp [P2.score.v], byte GameOver.score ; If player won
         jge game_over                   ; Game over
         jmp match_start                 ; Restart match
-  .collide_screen_right:
+    .collide_screen_right:
         cmp ax, Screen.w
         jne .collide_p1                 ; Right of screen collision - Win
         inc byte [P1.score.v]           ; Inc score
         cmp [P1.score.v], byte GameOver.score ; if player won
         jge game_over                   ; Game over
         jmp match_start                 ; Restart match
-  .collide_p1:
+    .collide_p1:
         cmp ax, P1.x                    ; Left paddle collision
         jne .collide_p2
         mov cx, [P1.y]
@@ -62,7 +62,7 @@ update_ball_x:
         add cx, P1.h
         cmp cx, [Ball.y]                ; Bottom of left paddle collision
         jge .bounce
-  .collide_p2:
+    .collide_p2:
         cmp ax, P2.x                    ; Right paddle collision
         jne .apply
         mov cx, [P2.y]
@@ -71,12 +71,12 @@ update_ball_x:
         add cx, P2.h
         cmp cx, [Ball.y]                ; Bottom of right paddle collision
         jl .apply
-  .bounce:
+    .bounce:
         neg bx                          ; Invert direction
         mov [Ball.xs], bx
-  .apply:
+    .apply:
         mov [Ball.x], ax                ; Apply speed
-  .end:
+    .end:
 
 update_ball:
         mov ax, [Ball.y]
@@ -85,9 +85,9 @@ update_ball:
         jz .bounce
         cmp ax, Screen.h                ; Bottom of screen collision
         jne .apply
-  .bounce:
+    .bounce:
         neg bx                          ; Invert direction
         mov [Ball.ys], bx
-  .apply:
+    .apply:
         mov [Ball.y], ax                ; Apply speed
-  .end:
+    .end:

@@ -22,5 +22,5 @@ PlotChar:
         mov ah, 0Ah                     ; Plot char
         mov cx, 1                       ; Repeat once
         int 10h
-  .end:
+    .end:
         ret
