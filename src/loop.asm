@@ -22,20 +22,20 @@ state_p1_scored:
         jmp init                        ; Restart match
 state_p2_scored:
         inc byte [P2.score.v]           ; Inc score
-        cmp [P2.score.v], byte GameOver.score ;If pPlayer won
+        cmp [P2.score.v], byte GameOver.score ; if player won
         jge state_game_over             ; Game over
         jmp init                        ; Restart match
 
 state_game_over:
-        mov di, GameOver.s             ; String pointer
-        mov cx, GameOver.l             ; String index from end
-        mov dl, GameOver.x             ; X
-        mov dh, GameOver.y             ; Y
-        mov bl, GameOver.c             ; Color
+        mov di, GameOver.s              ; String pointer
+        mov cx, GameOver.l              ; String index from end
+        mov dl, GameOver.x              ; X
+        mov dh, GameOver.y              ; Y
+        mov bl, GameOver.c              ; Color
 state_game_over_print:
         mov al, [di]                    ; Get actual char
         push cx
-        call PlotChar                      ; Plot char
+        call PlotChar                   ; Plot char
         inc dl                          ; One x forward
         inc di                          ; One char forward
         pop cx

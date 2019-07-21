@@ -1,7 +1,7 @@
 Keyboard:
-  .port         equ 0x60
-  .w            equ 0x11
-  .s            equ 0x1F
+  .port         equ 60h
+  .w            equ 11h
+  .s            equ 1Fh
 
 Screen:
   .frame_delay  equ 10

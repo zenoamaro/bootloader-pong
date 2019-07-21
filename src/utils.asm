@@ -19,14 +19,14 @@ Plot:
 
 PlotChar:
         ; al=char bl=color dl=x dh=y
-        mov bh, 0                      ; Page zero
+        mov bh, 0                       ; Page zero
         push ax
         push bx
-        mov ax, 0x0200                  ; Move cursor
+        mov ax, 0200h                   ; Move cursor
         int 10h
         pop bx
         pop ax
-        mov ah, 0x0A                    ; Plot char
+        mov ah, 0Ah                     ; Plot char
         mov cx, 1                       ; Repeat once
         int 10h
         ret
@@ -35,7 +35,7 @@ Sleep:
         ; No args
         mov edx, Screen.frame_delay
   .outer:
-        mov ecx, 0xffffffff
+        mov ecx, 0FFFFFFFFh
   .inner:
         loop .inner
         dec edx
