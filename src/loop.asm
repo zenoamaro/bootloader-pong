@@ -176,4 +176,25 @@ state_p2_scored:
         jmp init
 
 state_game_over:
-        jmp state_game_over
+        mov cx, GAME_OVER_L             ; String index from end
+state_game_over_print:
+        mov ebx, 0                      ; Page zero
+        mov ax, 0x0200                  ; Move cursor
+        mov dl, GAME_OVER_X
+        mov dh, GAME_OVER_Y
+        add dl, cl-1                    ; Offset x by index
+        int 10h
+        mov bx, GAME_OVER_T             ; Pointer to string
+        add bx, cx                      ; Offset by index
+        dec bx
+        mov di, bx                      ; Address
+        mov ax, [di]
+        mov ah, 0x0A                    ; Print char
+        push cx
+        mov cx, 1                       ; Repeat once
+        mov ebx, GAME_OVER_C            ; Color
+        int 10h
+        pop cx
+        loop state_game_over_print
+state_game_over_spin:
+        jmp state_game_over_spin

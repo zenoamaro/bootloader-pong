@@ -36,3 +36,8 @@ P2_SCORE_X      equ 38
 P2_SCORE_Y      equ 1
 
 MAX_SCORE       equ 10
+GAME_OVER_T     db "GAME OVER!"
+GAME_OVER_L     equ 10
+GAME_OVER_X     equ (40-GAME_OVER_L) / 2
+GAME_OVER_Y     equ 24 / 2
+GAME_OVER_C     equ 10
