@@ -1,3 +1,9 @@
+init: ;-------------------------------------------------------------------------
+        neg word [BallXS]               ; Invert horizontal direction
+        mov [BallX], word BALL_X_START  ; Ball at starting position
+        mov [BallY], word BALL_Y_START
+
+
 loop: ;-------------------------------------------------------------------------
 
 
@@ -30,9 +36,9 @@ update_ball_x:
         mov bx, [BallXS]
         add ax, bx                      ; Calculate next position
 update_ball_x_screen_collision:
-        jz update_ball_x_invert         ; Left of screen collision - FIXME
-        cmp ax, SCREEN_W                ; Right of screen collision - FIXME
-        je update_ball_x_invert
+        jz init                         ; Left of screen collision - Restart
+        cmp ax, SCREEN_W                ; Right of screen collision - Restart
+        je init
 update_ball_x_p1_collision:
         cmp ax, P1X                     ; Left paddle collision
         jne update_ball_x_p2_collision
