@@ -9,6 +9,7 @@ loop: ;-------------------------------------------------------------------------
 
 update: ;-----------------------------------------------------------------------
 
+
 update_player_input:
         in al, KEYBOARD_PORT            ; Read keyboard directly
         cmp al, KEY_W                   ; Up
@@ -29,6 +30,22 @@ update_player_move_down:
         je update_player_move_end
         inc word [P1Y]                  ; Move down
 update_player_move_end:
+
+
+update_ai:
+        mov cx, [P2Y]                   ; Check ball position
+        cmp cx, [BallY]                 ; Top of right paddle
+        jg update_ai_move_up            ; Paddle too low
+        add cx, P2H
+        cmp cx, [BallY]                 ; Bottom of right paddle
+        jl update_ai_move_down          ; Paddle too high
+        jmp update_ai_end
+update_ai_move_up:
+        dec word [P2Y]
+        jmp update_ai_end
+update_ai_move_down:
+        inc word [P2Y]
+update_ai_end:
 
 
 update_ball_x:
@@ -81,7 +98,8 @@ update_ball_y_end:
 
 
 draw: ;-------------------------------------------------------------------------
-        call clear                      ; Clear the screen
+        mov cx, BG_C                    ; Clear the screen to bg color
+        call clear
 
 draw_p1:
         mov dx, P1H                     ; Size of paddle

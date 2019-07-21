@@ -17,12 +17,12 @@ BallXS          dw 1
 BallYS          dw 1
 BALL_C          equ 15
 
-P1H             equ 40
+P1H             equ 35
 P1X             equ 10
 P1Y             dw (SCREEN_H-P1H) / 2
 P1C             equ 2
 
-P2H             equ 40
+P2H             equ 35
 P2X             equ SCREEN_W - 10
-P2Y             dw (SCREEN_H-P1H) / 2
+P2Y             dw (SCREEN_H-P2H) / 2
 P2C             equ 2
