@@ -1,13 +1,13 @@
-cls:
+ClearScreen:
         ; cl=color
-        mov di, SCREEN_W * SCREEN_H
-cls_loop:
+        mov di, Screen.w * Screen.h
+  .loop:
         mov [es:di], cl
         dec di
-        jnz cls_loop
+        jnz .loop
         ret
 
-plot:
+Plot:
         ; ax=y, bx=x, dl=color
         push ax
         imul ax, 320
@@ -17,7 +17,7 @@ plot:
         pop ax
         ret
 
-plotc:
+PlotChar:
         ; al=char bl=color dl=x dh=y
         mov bh, 0                      ; Page zero
         push ax
@@ -31,12 +31,13 @@ plotc:
         int 10h
         ret
 
-sleep:
-        mov edx, SPINLOOPS
-sleep_loop:
+Sleep:
+        ; No args
+        mov edx, Screen.frame_delay
+  .outer:
         mov ecx, 0xffffffff
-sleep_inner:
-        loop sleep_inner
+  .inner:
+        loop .inner
         dec edx
-        jnz sleep_loop
+        jnz .outer
         ret

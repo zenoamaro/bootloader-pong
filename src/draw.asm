@@ -1,43 +1,45 @@
-        mov cx, BG_C                    ; Clear screen to bg color
-        call cls
+clear:
+        mov cx, Screen.c                ; Clear screen to bg color
+        call ClearScreen
 
-draw_p1_score:
-        mov dl, P1_SCORE_X
-        mov dh, P1_SCORE_Y
-        mov bl, P1_SCORE_C
-        mov al, [p1_score]
+draw_scores:
+  .p1:
+        mov dl, P1.score.x              ; X
+        mov dh, P1.score.y              ; Y
+        mov bl, P1.score.c              ; Color
+        mov al, [P1.score.v]            ; Score value
         add al, 48                      ; Shift to `0` character
-        call plotc
-draw_p2_score:
-        mov dl, P2_SCORE_X
-        mov dh, P2_SCORE_Y
-        mov bl, P2_SCORE_C
-        mov al, [p2_score]
+        call PlotChar                   ; Plot char
+  .p2:
+        mov dl, P2.score.x              ; X
+        mov dh, P2.score.y              ; Y
+        mov bl, P2.score.c              ; Color
+        mov al, [P2.score.v]            ; Score value
         add al, 48                      ; Shift to `0` character
-        call plotc
+        call PlotChar                   ; Plot char
 
 draw_p1:
-        mov ax, [p1_y]
-        mov bx, P1_X
-        mov cx, P1_H
-        mov dl, P1_C
-draw_p1_paddle:
-        call plot
-        inc ax
-        loop draw_p1_paddle            ; Loop to size of paddle
+        mov ax, [P1.y]                  ; Y
+        mov bx, P1.x                    ; X
+        mov cx, P1.h                    ; Height
+        mov dl, P1.c                    ; Color
+  .loop:
+        call Plot                       ; Plot
+        inc ax                          ; Next row
+        loop .loop                      ; Loop to size of paddle
 
 draw_p2:
-        mov ax, [p2_y]
-        mov bx, P2_X
-        mov cx, P2_H
-        mov dl, P2_C
-draw_p2_paddle:
-        call plot
-        inc ax
-        loop draw_p2_paddle            ; Loop to size of paddle
+        mov ax, [P2.y]                  ; Y
+        mov bx, P2.x                    ; X
+        mov cx, P2.h                    ; Height
+        mov dl, P2.c                    ; Color
+  .loop:
+        call Plot                       ; Plot
+        inc ax                          ; Next row
+        loop .loop                      ; Loop to size of paddle
 
 draw_ball:
-        mov ax, [ball_y]
-        mov bx, [ball_x]
-        mov dl, BALL_C
-        call plot
+        mov ax, [Ball.y]                ; Y
+        mov bx, [Ball.x]                ; X
+        mov dl, Ball.c                  ; Color
+        call Plot                       ; Plot

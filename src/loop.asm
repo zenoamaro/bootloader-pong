@@ -1,7 +1,7 @@
 init: ;-------------------------------------------------------------------------
-        neg word [ball_xs]              ; Invert horizontal direction
-        mov [ball_x], word BALL_START_X ; Ball at starting position
-        mov [ball_y], word BALL_START_Y
+        neg word [Ball.xs]              ; Invert horizontal direction
+        mov [Ball.x], word Ball.x0      ; Ball at starting position
+        mov [Ball.y], word Ball.y0
 
 loop: ;-------------------------------------------------------------------------
         %include "src/update.asm"
@@ -9,36 +9,36 @@ loop: ;-------------------------------------------------------------------------
 
 
 spin: ;-------------------------------------------------------------------------
-        call sleep                      ; FIXME: Proper timestep
+        call Sleep                      ; FIXME: Proper timestep
         jmp loop
 
 
 states: ;-----------------------------------------------------------------------
 
 state_p1_scored:
-        inc byte [p1_score]
-        cmp [p1_score], byte MAX_SCORE
-        jge state_game_over
-        jmp init
+        inc byte [P1.score.v]           ; Inc score
+        cmp [P1.score.v], byte GameOver.score ; If player won
+        jge state_game_over             ; Game over
+        jmp init                        ; Restart match
 state_p2_scored:
-        inc byte [p2_score]
-        cmp [p2_score], byte MAX_SCORE
-        jge state_game_over
-        jmp init
+        inc byte [P2.score.v]           ; Inc score
+        cmp [P2.score.v], byte GameOver.score ;If pPlayer won
+        jge state_game_over             ; Game over
+        jmp init                        ; Restart match
 
 state_game_over:
-        mov cx, GAME_OVER_L             ; String index from end
-        mov dl, GAME_OVER_X
-        mov dh, GAME_OVER_Y
-        mov di, game_over_s
-        mov bl, GAME_OVER_C             ; Color
+        mov di, GameOver.s             ; String pointer
+        mov cx, GameOver.l             ; String index from end
+        mov dl, GameOver.x             ; X
+        mov dh, GameOver.y             ; Y
+        mov bl, GameOver.c             ; Color
 state_game_over_print:
-        mov al, [di]
+        mov al, [di]                    ; Get actual char
         push cx
-        call plotc
-        inc dl
-        inc di
+        call PlotChar                      ; Plot char
+        inc dl                          ; One x forward
+        inc di                          ; One char forward
         pop cx
-        loop state_game_over_print
+        loop state_game_over_print      ; Loop until string end
 state_game_over_spin:
-        jmp state_game_over_spin
+        jmp state_game_over_spin        ; Spin forever

@@ -1,5 +1,7 @@
-        mov ax, 13h                     ; Set video mode 13h
+setup_video_mode:
+        mov ax, 13h                     ; 320 x 200 x 8
         int 10h
 
-        mov ax, VIDEO                   ; Offset to video memory
+setup_memory_address:
+        mov ax, Screen.addr
         mov es, ax
