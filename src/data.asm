@@ -33,7 +33,7 @@ P1:
     .c            equ 12
     .score.v      db 0
     .score.x      equ 1
-    .score.y      equ 1
+    .score.y      equ 24 / 2
     .score.c      equ 4
 
 P2:
@@ -43,7 +43,7 @@ P2:
     .y            dw (Screen.h - .h) / 2
     .score.v      db 0
     .score.x      equ 38
-    .score.y      equ 1
+    .score.y      equ 24 / 2
     .score.c      equ 1
 
 GameOver:
