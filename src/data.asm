@@ -34,3 +34,5 @@ P2Score         db 0
 P2_SCORE_C      equ 1
 P2_SCORE_X      equ 38
 P2_SCORE_Y      equ 1
+
+MAX_SCORE       equ 10

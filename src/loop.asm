@@ -53,9 +53,9 @@ update_ball_x:
         mov bx, [BallXS]
         add ax, bx                      ; Calculate next position
 update_ball_x_screen_collision:
-        jz state_p2_win                 ; Left of screen collision - Win
+        jz state_p2_scored                 ; Left of screen collision - Win
         cmp ax, SCREEN_W
-        je state_p1_win                 ; Right of screen collision - Win
+        je state_p1_scored                 ; Right of screen collision - Win
 update_ball_x_p1_collision:
         cmp ax, P1X                     ; Left paddle collision
         jne update_ball_x_p2_collision
@@ -164,9 +164,16 @@ spin: ;-------------------------------------------------------------------------
 
 states: ;-----------------------------------------------------------------------
 
-state_p1_win:
-        inc word [P1Score]
+state_p1_scored:
+        inc byte [P1Score]
+        cmp [P1Score], byte MAX_SCORE
+        jge state_game_over
         jmp init
-state_p2_win:
-        inc word [P2Score]
+state_p2_scored:
+        inc byte [P2Score]
+        cmp [P2Score], byte MAX_SCORE
+        jge state_game_over
         jmp init
+
+state_game_over:
+        jmp state_game_over
