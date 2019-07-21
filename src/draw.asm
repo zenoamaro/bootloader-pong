@@ -1,6 +1,10 @@
 clear_screen:
-        mov cx, Screen.c                ; Clear screen to bg color
-        call ClearScreen
+        mov cl, Screen.c                ; Clear screen to bg color
+        mov di, Screen.w * Screen.h
+  .loop:
+        mov [es:di], cl
+        dec di
+        jnz .loop
 
 draw_net:
         mov ax, Net.y                   ; Y

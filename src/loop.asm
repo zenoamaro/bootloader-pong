@@ -8,7 +8,10 @@ game_loop:
         %include "src/draw.asm"
 
 game_spin:
-        call Sleep                      ; FIXME: Proper timestep
+        mov ah, 86h                     ; Elapsed time wait call
+        mov cx, 0                       ; Delay
+        mov dx, Screen.frame_delay      ; Delay
+        int 15h                         ; System BIOS call
         jmp game_loop
 
 game_over:

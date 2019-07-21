@@ -5,7 +5,7 @@ update_player:
         je .move_up
         cmp al, Keyboard.s              ; Down
         je .move_down
-        jmp .end      ; Still
+        jmp .end                        ; Still
   .move_up:
         mov ax, [P1.y]                  ; Top of paddle
         cmp ax, 0                       ; Top of screen collision

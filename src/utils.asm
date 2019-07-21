@@ -1,12 +1,3 @@
-ClearScreen:
-        ; cl=color
-        mov di, Screen.w * Screen.h
-  .loop:
-        mov [es:di], cl
-        dec di
-        jnz .loop
-        ret
-
 Plot:
         ; ax=y, bx=x, dl=color
         push ax
@@ -32,12 +23,4 @@ PlotChar:
         mov cx, 1                       ; Repeat once
         int 10h
   .end:
-        ret
-
-Sleep:
-        ; No args
-        mov ah, 86h
-        mov cx, 0
-        mov dx, Screen.frame_delay
-        int 15h
         ret
