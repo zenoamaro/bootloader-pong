@@ -36,11 +36,8 @@ PlotChar:
 
 Sleep:
         ; No args
-        mov edx, Screen.frame_delay
-  .outer:
-        mov ecx, 0FFFFFFFFh
-  .inner:
-        loop .inner
-        dec edx
-        jnz .outer
+        mov ah, 86h
+        mov cx, 0
+        mov dx, Screen.frame_delay
+        int 15h
         ret

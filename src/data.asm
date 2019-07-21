@@ -5,7 +5,7 @@ Keyboard:
   .space        equ 20h
 
 Screen:
-  .frame_delay  equ 10
+  .frame_delay  equ 8192
   .addr         equ 0A000h
   .w            equ 320
   .h            equ 200
