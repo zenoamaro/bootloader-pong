@@ -16,7 +16,11 @@ clear_loop:
         ret
 
 sleep:
-        mov ecx, 0xffffffff
+        mov edx, SPINLOOP
 sleep_loop:
-        loop sleep_loop
+        mov ecx, 0xffffffff
+sleep_inner:
+        loop sleep_inner
+        dec edx
+        jnz sleep_loop
         ret

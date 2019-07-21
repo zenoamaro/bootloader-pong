@@ -133,5 +133,5 @@ draw_ball:
 
 
 spin: ;-------------------------------------------------------------------------
-        times SPINLOOP call sleep       ; FIXME: Proper timestep
+        call sleep                      ; FIXME: Proper timestep
         jmp loop
