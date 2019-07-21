@@ -43,14 +43,14 @@ update_ball_x:
     .collide_screen_left:
         jnz .collide_screen_right       ; Left of screen collision - Win
         inc byte [P2.score.v]           ; Inc score
-        cmp [P2.score.v], byte GameOver.score ; If player won
+        cmp [P2.score.v], byte Match.max_score
         jge game_over                   ; Game over
         jmp match_start                 ; Restart match
     .collide_screen_right:
         cmp ax, Screen.w
         jne .collide_p1                 ; Right of screen collision - Win
         inc byte [P1.score.v]           ; Inc score
-        cmp [P1.score.v], byte GameOver.score ; if player won
+        cmp [P1.score.v], byte Match.max_score
         jge game_over                   ; Game over
         jmp match_start                 ; Restart match
     .collide_p1:

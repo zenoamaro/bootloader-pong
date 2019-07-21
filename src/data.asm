@@ -11,6 +11,9 @@ Screen:
     .h            equ 200
     .c            equ 0
 
+Match:
+    .max_score    equ 10
+
 Net:
     .x:           equ Screen.w / 2
     .y:           equ 1
@@ -37,10 +40,10 @@ P1:
     .score.c      equ 4
 
 P2:
-    .h            equ 25
     .x            equ Screen.w - 23
-    .c            equ 9
     .y            dw (Screen.h - .h) / 2
+    .h            equ 25
+    .c            equ 9
     .score.v      db 0
     .score.x      equ 38
     .score.y      equ 24 / 2
@@ -52,4 +55,3 @@ GameOver:
     .x            equ (40 - .l) / 2
     .y            equ 24 / 2
     .c            equ 10
-    .score        equ 10
