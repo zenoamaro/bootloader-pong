@@ -19,6 +19,8 @@ Plot:
 
 PlotChar:
         ; al=char bl=color dl=x dh=y
+        cmp al, Keyboard.space          ; Don't draw spaces
+        je .end
         mov bh, 0                       ; Page zero
         push ax
         push bx
@@ -29,6 +31,7 @@ PlotChar:
         mov ah, 0Ah                     ; Plot char
         mov cx, 1                       ; Repeat once
         int 10h
+  .end:
         ret
 
 Sleep:

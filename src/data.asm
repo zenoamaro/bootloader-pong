@@ -2,6 +2,7 @@ Keyboard:
   .port         equ 60h
   .w            equ 11h
   .s            equ 1Fh
+  .space        equ 20h
 
 Screen:
   .frame_delay  equ 10
@@ -14,7 +15,7 @@ Net:
   .x:           equ Screen.w / 2
   .y:           equ 1
   .h:           equ (Screen.h - 2) / 2
-  .c:           equ 8
+  .c:           equ 2
 
 Ball:
   .x0           equ Screen.w / 2
@@ -46,7 +47,7 @@ P2:
   .score.c      equ 1
 
 GameOver:
-  .s            db "GAME OVER!"
+  .s            db "GAME  OVER"
   .l            equ $ - .s
   .x            equ (40 - .l) / 2
   .y            equ 24 / 2

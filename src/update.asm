@@ -21,7 +21,7 @@ update_player:
   .end:
 
 update_ai:
-  .think
+  .think:
         mov cx, [P2.y]                  ; Check ball position
         cmp cx, [Ball.y]                ; Top of right paddle
         jg .move_up                     ; Paddle too low

@@ -7,7 +7,7 @@ draw_net:
         mov bx, Net.x                   ; X
         mov cx, Net.h                   ; Height
         mov dl, Net.c                   ; Color
-  .loop
+  .loop:
         call Plot                       ; Plot
         add ax, 2                       ; Dotted line
         loop .loop                      ; Loop to height of net
