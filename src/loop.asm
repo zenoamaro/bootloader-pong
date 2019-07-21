@@ -3,7 +3,6 @@ init: ;-------------------------------------------------------------------------
         mov [ball_x], word BALL_START_X ; Ball at starting position
         mov [ball_y], word BALL_START_Y
 
-
 loop: ;-------------------------------------------------------------------------
 
 
@@ -99,32 +98,22 @@ update_ball_y_end:
 
 draw: ;-------------------------------------------------------------------------
         mov cx, BG_C                    ; Clear the screen to bg color
-        call clear
+        call cls
 
 draw_p1_score:
-        mov ebx, 0                      ; Page zero
-        mov ax, 0x0200                  ; Move cursor
         mov dl, P1_SCORE_X
         mov dh, P1_SCORE_Y
-        int 10h
-        mov ah, 0x0A                    ; Print char
+        mov bl, P1_SCORE_C              ; Color
         mov al, [p1_score]
         add al, 48                      ; `0` character
-        mov cx, 1                       ; Repeat once
-        mov bl, P1_SCORE_C              ; Color
-        int 10h
+        call plotc
 draw_p2_score:
-        mov ebx, 0                      ; Page zero
-        mov ax, 0x0200                  ; Move cursor
         mov dl, P2_SCORE_X
         mov dh, P2_SCORE_Y
-        int 10h
-        mov ah, 0x0A                    ; Print char
+        mov bl, P2_SCORE_C              ; Color
         mov al, [p2_score]
         add al, 48                      ; `0` character
-        mov cx, 1                       ; Repeat once
-        mov bl, P2_SCORE_C              ; Color
-        int 10h
+        call plotc
 
 draw_p1:
         mov dx, P1_H                    ; Size of paddle
@@ -177,23 +166,16 @@ state_p2_scored:
 
 state_game_over:
         mov cx, GAME_OVER_L             ; String index from end
-state_game_over_print:
-        mov ebx, 0                      ; Page zero
-        mov ax, 0x0200                  ; Move cursor
         mov dl, GAME_OVER_X
         mov dh, GAME_OVER_Y
-        add dl, cl-1                    ; Offset x by index
-        int 10h
-        mov bx, game_over_s             ; Pointer to string
-        add bx, cx                      ; Offset by index
-        dec bx
-        mov di, bx                      ; Address
-        mov ax, [di]
-        mov ah, 0x0A                    ; Print char
+        mov di, game_over_s
+        mov bl, GAME_OVER_C             ; Color
+state_game_over_print:
+        mov al, [di]
         push cx
-        mov cx, 1                       ; Repeat once
-        mov ebx, GAME_OVER_C            ; Color
-        int 10h
+        call plotc
+        inc dl
+        inc di
         pop cx
         loop state_game_over_print
 state_game_over_spin:

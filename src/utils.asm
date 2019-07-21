@@ -6,13 +6,27 @@ plot:
         mov [es:di], cl
         ret
 
-clear:
+cls:
         ; cl=color
         mov di, SCREEN_W * SCREEN_H
-clear_loop:
+cls_loop:
         mov [es:di], cl
         dec di
-        jnz clear_loop
+        jnz cls_loop
+        ret
+
+plotc:
+        ; al=char bl=color dl=x dh=y
+        mov bh, 0                      ; Page zero
+        push ax
+        push bx
+        mov ax, 0x0200                  ; Move cursor
+        int 10h
+        pop bx
+        pop ax
+        mov ah, 0x0A                    ; Plot char
+        mov cx, 1                       ; Repeat once
+        int 10h
         ret
 
 sleep:
