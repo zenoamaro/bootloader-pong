@@ -18,11 +18,19 @@ BallYS          dw 1
 BALL_C          equ 15
 
 P1H             equ 25
-P1X             equ 10
+P1X             equ 23
 P1Y             dw (SCREEN_H-P1H) / 2
-P1C             equ 2
+P1C             equ 12
+P1Score         db 0
+P1_SCORE_C      equ 4
+P1_SCORE_X      equ 1
+P1_SCORE_Y      equ 1
 
 P2H             equ 25
-P2X             equ SCREEN_W - 10
+P2X             equ SCREEN_W - 23
 P2Y             dw (SCREEN_H-P2H) / 2
-P2C             equ 2
+P2C             equ 9
+P2Score         db 0
+P2_SCORE_C      equ 1
+P2_SCORE_X      equ 38
+P2_SCORE_Y      equ 1
