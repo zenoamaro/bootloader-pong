@@ -44,6 +44,7 @@ P2:
     .y            dw (Screen.h - .h) / 2
     .h            equ 25
     .c            equ 9
+    .ai_reach     equ 223
     .score.v      db 0
     .score.x      equ 38
     .score.y      equ 24 / 2

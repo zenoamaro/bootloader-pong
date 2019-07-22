@@ -22,7 +22,10 @@ update_player:
 
 update_ai:
     .think:
-        mov cx, [P2.y]                  ; Check ball position
+        mov cx, [Ball.x]                ; Only move if ball is within reach
+        cmp cx, P2.ai_reach
+        jle .end
+        mov cx, [P2.y]                  ; Compare to ball position
         cmp cx, [Ball.y]                ; Top of right paddle
         jg .move_up                     ; Paddle too low
         add cx, P2.h
